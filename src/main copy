@@ -28,7 +28,7 @@ uint16_t end;
 void callback1(const uint8_t *data, uint16_t size, const ArtDmxMetadata &metadata, const ArtNetRemoteInfo &remote)
 {
     start = metadata.universe * 170;
-    end = (metadata.universe + 2) * 170;
+    end = (metadata.universe + 1) * 170;
     // Serial.print("univ ");
     Serial.print(metadata.sequence);
     Serial.print("  ");
@@ -131,58 +131,7 @@ void setup(void)
     artnet.begin();
     artnet.setLogger(&Serial);
 
-    artnet.subscribeArtDmxUniverse(universe0,[&](const uint8_t *data, uint16_t size, const ArtDmxMetadata &metadata, const ArtNetRemoteInfo &remote)
-                           {
-    start = metadata.universe * 170;
-    end = (metadata.universe + 1) * 170;
-
-    for (uint16_t pixel = start; pixel < end; ++pixel){ 
-
-        uint16_t idx = (pixel - start) * 3;
-
-        // Serial.printf( "%3d ", data[idx]);
-      
-        leds0[pixel].r = data[idx + 0];
-        leds0[pixel].g = data[idx + 1];
-        leds0[pixel].b = data[idx + 2];
-    }
-    // FastLED.show(); 
-    });
-    artnet.subscribeArtDmxUniverse(universe1,[&](const uint8_t *data, uint16_t size, const ArtDmxMetadata &metadata, const ArtNetRemoteInfo &remote)
-                           {
-    start = metadata.universe * 170;
-    end = (metadata.universe + 1) * 170;
-
-    for (uint16_t pixel = start; pixel < end; ++pixel){ 
-
-        uint16_t idx = (pixel - start) * 3;
-
-        // Serial.printf( "%3d ", data[idx]);
-      
-        leds0[pixel].r = data[idx + 0];
-        leds0[pixel].g = data[idx + 1];
-        leds0[pixel].b = data[idx + 2];
-    }
-    // FastLED.show(); 
-    });
-    artnet.subscribeArtDmxUniverse(universe2,[&](const uint8_t *data, uint16_t size, const ArtDmxMetadata &metadata, const ArtNetRemoteInfo &remote)
-                           {
-    start = metadata.universe * 170;
-    end = (metadata.universe + 1) * 170;
-
-    for (uint16_t pixel = start; pixel < end; ++pixel){ 
-
-        uint16_t idx = (pixel - start) * 3;
-
-        // Serial.printf( "%3d ", data[idx]);
-      
-        leds0[pixel].r = data[idx + 0];
-        leds0[pixel].g = data[idx + 1];
-        leds0[pixel].b = data[idx + 2];
-    }
-    // FastLED.show(); 
-    });
-    artnet.subscribeArtDmxUniverse(universe3,[&](const uint8_t *data, uint16_t size, const ArtDmxMetadata &metadata, const ArtNetRemoteInfo &remote)
+    artnet.subscribeArtDmx([&](const uint8_t *data, uint16_t size, const ArtDmxMetadata &metadata, const ArtNetRemoteInfo &remote)
                            {
     start = metadata.universe * 170;
     end = (metadata.universe + 1) * 170;
@@ -198,7 +147,6 @@ void setup(void)
         leds0[pixel].b = data[idx + 2];
     }
     FastLED.show(); });
-
 }
 
 void loop(void)
