@@ -1,23 +1,30 @@
+#include "config.h"
+
 #include "leds.h"
 #include "communication.h"
-#include "artnet.h"
+#ifdef OTA
+#include "ota.h"
+#endif
+#include "artnet3.h"
 
 void setup(void)
 {
     Serial.begin(115200);
+
     communicationInit();
+#ifdef OTA
+    otaInit();
+#endif
     ledsInit();
-    artnetInit();
-    // artnetSubscribe();
+    artnet3Init();
+    // artnet3Subscribe();
     // artnetSubscribeAll();
-    artnetSubscribeAll_2();
+    // artnet3SubscribeAll_2();
 }
 
 void loop(void)
 {
+#ifdef OTA
     ElegantOTA.loop();
-    if (!checkOTAProgress())
-    {
-        artnetParse(); // check if artnet packet has come and execute callback
-    }
+#endif
 }

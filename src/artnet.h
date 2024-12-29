@@ -2,6 +2,7 @@
 
 #include <ArtnetETH.h>
 
+
 void artnetInit();
 void artnetParse();
 void artnetSubscribe();
